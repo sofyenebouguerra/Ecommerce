@@ -23,6 +23,8 @@ public class User implements Serializable {
 	private String email;
 	private String phone; 
 	private boolean enabled=true;
+	private String profile;
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -100,6 +102,12 @@ public class User implements Serializable {
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public String getProfile() {
+		return profile;
+	}
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 	
 	
