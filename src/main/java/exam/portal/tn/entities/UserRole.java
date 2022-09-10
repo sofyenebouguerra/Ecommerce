@@ -21,13 +21,27 @@ public class UserRole implements Serializable {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private User user;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	private Role role;
 	
 	
 	public UserRole() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public UserRole(Long userRoleId, User user, Role role) {
+		super();
+		this.userRoleId = userRoleId;
+		this.user = user;
+		this.role = role;
+	}
+	
+
+	public UserRole(User user, Role role) {
+		super();
+		this.user = user;
+		this.role = role;
 	}
 
 	public Long getUserRoleId() {
@@ -39,6 +53,22 @@ public class UserRole implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 	
