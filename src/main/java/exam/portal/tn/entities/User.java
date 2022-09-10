@@ -1,12 +1,19 @@
-package exam.portal.entities;
+package exam.portal.tn.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="users")
@@ -25,12 +32,17 @@ public class User implements Serializable {
 	private boolean enabled=true;
 	private String profile;
 	
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
+	@JsonIgnore
+	private Set<UserRole> userRoles=new HashSet<>();
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public User(Long id, String username, String password, String firstName, String lastName, String email,
-			String phone, boolean enabled) {
+			String phone, boolean enabled, String profile) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -40,9 +52,12 @@ public class User implements Serializable {
 		this.email = email;
 		this.phone = phone;
 		this.enabled = enabled;
+		this.profile = profile;
 	}
+
+	
 	public User(String username, String password, String firstName, String lastName, String email, String phone,
-			boolean enabled) {
+			boolean enabled, String profile) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -51,7 +66,9 @@ public class User implements Serializable {
 		this.email = email;
 		this.phone = phone;
 		this.enabled = enabled;
+		this.profile = profile;
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -109,7 +126,16 @@ public class User implements Serializable {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
-	
+
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+
 	
 	
 
