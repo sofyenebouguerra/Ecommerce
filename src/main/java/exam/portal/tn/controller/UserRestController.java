@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +19,14 @@ import exam.portal.tn.entities.UserRole;
 import exam.portal.tn.services.IUserService;
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserRestController {
 @Autowired
 IUserService userService;
 
       @PostMapping("/")
       public User createUser(@RequestBody User user) throws Exception{
+    	  user.setProfile("default");
 		Set<UserRole> roles=new HashSet<>() ;
 		Role role=new Role();
 		role.setRoleId(77L);
