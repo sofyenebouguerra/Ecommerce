@@ -3,6 +3,7 @@ package exam.portal.tn.services;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import exam.portal.tn.entities.User;
@@ -11,6 +12,8 @@ import exam.portal.tn.repository.RoleRepository;
 import exam.portal.tn.repository.UserRepository;
 @Service
 public class UserServiceImpl implements IUserService {
+	
+	
 	
 	@Autowired 
 	UserRepository userRepo;

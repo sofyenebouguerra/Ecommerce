@@ -26,7 +26,7 @@ IUserService userService;
 
       @PostMapping("/")
       public User createUser(@RequestBody User user) throws Exception{
-    	  user.setProfile("default");
+    	  user.setProfile("default.png");
 		Set<UserRole> roles=new HashSet<>() ;
 		Role role=new Role();
 		role.setRoleId(77L);
@@ -41,7 +41,7 @@ IUserService userService;
 		return userService.createUser(user, roles);
     	  
       }
-      @GetMapping("/Get/{username}")
+      @GetMapping("/{username}")
       public User getUser(@PathVariable("username")  String username) {
     	  return userService.getUser(username);
       }

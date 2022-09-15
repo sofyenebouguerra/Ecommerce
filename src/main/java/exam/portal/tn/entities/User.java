@@ -1,6 +1,7 @@
 package exam.portal.tn.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,11 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="users")
-public class User implements Serializable {
+public class User  implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
@@ -37,8 +41,7 @@ public class User implements Serializable {
 	private Set<UserRole> userRoles=new HashSet<>();
 	
 	public User() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public User(Long id, String username, String password, String firstName, String lastName, String email,
@@ -133,6 +136,33 @@ public class User implements Serializable {
 
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<Authority> set=new HashSet<>();
+		this.userRoles.forEach(userRole->{
+			set.add(new Authority(userRole.getRole().getRoleName()));
+		});
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 
