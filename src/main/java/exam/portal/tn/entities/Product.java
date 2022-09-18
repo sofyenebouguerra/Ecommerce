@@ -1,11 +1,19 @@
 package exam.portal.tn.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+
 @Entity
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -16,6 +24,19 @@ public class Product implements Serializable {
 	private String productDescription;
 	private Double productDiscountPrice;
 	private Double productActualPrice;
+	
+	
+	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinTable(name="product_images",joinColumns= {
+			@JoinColumn(name="product_id")
+	},inverseJoinColumns= {
+			@JoinColumn(name="image_id")
+	}
+	)
+
+	private Set<ImageModel> productImages;
+	
+	
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -43,12 +64,7 @@ public class Product implements Serializable {
 	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProducName(String productName) {
-		this.productName = productName;
-	}
+
 	public String getProductDescription() {
 		return productDescription;
 	}
@@ -69,6 +85,15 @@ public class Product implements Serializable {
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public Set<ImageModel> getProductImages() {
+		return productImages;
+	}
+	public void setProductImages(Set<ImageModel> productImages) {
+		this.productImages = productImages;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 	
 	
