@@ -4,33 +4,47 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import exam.portal.tn.entities.Role;
 import exam.portal.tn.entities.User;
 import exam.portal.tn.entities.UserRole;
+import exam.portal.tn.helper.UserFoundException;
 import exam.portal.tn.services.IUserService;
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("*")
 public class UserRestController {
-@Autowired
-IUserService userService;
+	
+	@Autowired
+	IUserService userService;
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 
       @PostMapping("/")
       public User createUser(@RequestBody User user) throws Exception{
     	  user.setProfile("default.png");
+    	  
+    	  
+    	  //encoding passwor with BCryptPasswordEncoder
+    	  
+    	  user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+    	  
 		Set<UserRole> roles=new HashSet<>() ;
 		Role role=new Role();
-		role.setRoleId(77L);
-		role.setRoleName("Capitain");
+		role.setRoleId(99L);
+		role.setRoleName("ADMIN");
 		UserRole userRole=new UserRole();
 		//userRole.setUser(user);
 		//userRole.setRole(role);
@@ -49,4 +63,11 @@ IUserService userService;
       public void deleteUser(@PathVariable ("id") Long userId) {
     	   userService.deleteUser(userId);
       }
+      
+      //update api
+    /*  @ExceptionHandler(UserFoundException.class)
+      public ResponseEntity<?> exceptionHandler(UserFoundException ex){
+		return ResponseEntity;
+    	  
+      }*/
 }

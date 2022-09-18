@@ -36,8 +36,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return  NoOpPasswordEncoder.getInstance();
+	public BCryptPasswordEncoder passwordEncoder() {
+		return  new BCryptPasswordEncoder();
 	}
 	
 	@Override
@@ -61,7 +61,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 				.cors()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/generate-token","/user/").permitAll()
+				.antMatchers("/generate-token","/user/","/product/").permitAll()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 			
 				.anyRequest().authenticated()

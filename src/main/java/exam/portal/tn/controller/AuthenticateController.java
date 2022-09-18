@@ -1,5 +1,7 @@
 package exam.portal.tn.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,6 +10,8 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import exam.portal.tn.config.JwtUtils;
 import exam.portal.tn.entities.JwtRequest;
 import exam.portal.tn.entities.JwtResponse;
+import exam.portal.tn.entities.User;
 import exam.portal.tn.helper.UserNotFoundException;
 import exam.portal.tn.services.UserDetailsIServiceImpl;
 
 @RestController
+@CrossOrigin("*")
 public class AuthenticateController {
 	
 	@Autowired
@@ -33,25 +39,7 @@ public class AuthenticateController {
 	
 	//generate token
 	
-	/*@PostMapping("/generate-token")
-	public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Throwable{
-		try
-		{
-			authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
-			
-		}catch(UserNotFoundException e)
-		{
-			e.printStackTrace();
-			throw new Exception("User not found");
-		}
-		
-		
-		UserDetails userDetails=this.detailsImpl.loadUserByUsername(jwtRequest.getUsername());
-		String token=this.jwtUtils.generateToken(userDetails);
-		return ResponseEntity.ok(new JwtResponse(token) );
-	}*/
-	
-	
+
 	
       @PostMapping("/generate-token")
 	   public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception{
@@ -85,6 +73,13 @@ public class AuthenticateController {
 		{
 			throw new Exception("Invalid Credentials "+e.getMessage());
 		}
+			
 	}
+	@GetMapping("/current-user")
+	public User getCurrentUser(Principal principal) {
+		return (User) this.detailsImpl.loadUserByUsername(principal.getName());
+		
+	}
+	
 
 }
