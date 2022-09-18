@@ -3,11 +3,14 @@ package exam.portal.tn.controller;
 import java.awt.PageAttributes;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,7 @@ import exam.portal.tn.services.IProductServices;
 @RestController
 @RequestMapping("/product")
 @CrossOrigin("*")
+@PreAuthorize("hasRole('Admin')")
 public class ProductController {
 	
 	@Autowired
@@ -55,4 +59,11 @@ public class ProductController {
 		}
 		return imageModels;
 	}
+	@GetMapping("/GetAll")
+	public List<Product> GetAllPro(){
+		return iProductServices.GetAllPro();
+	}
+	
+	
+	
 }
