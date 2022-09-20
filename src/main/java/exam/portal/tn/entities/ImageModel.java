@@ -10,8 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
 @Table(name="image_model")
-public class ImageModel implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class ImageModel {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)  
 	private Long id;
@@ -71,10 +70,6 @@ public class ImageModel implements Serializable {
 		this.picByte = picByte;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
 	
 
 }

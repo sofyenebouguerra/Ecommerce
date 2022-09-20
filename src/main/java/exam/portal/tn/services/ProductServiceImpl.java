@@ -26,4 +26,18 @@ public class ProductServiceImpl implements IProductServices {
 		return  (List<Product>) productRepository.findAll();
 	}
 
+
+	@Override
+	public void DeleteProDetail(Long productId) {
+		productRepository.deleteById(productId);
+		
+	}
+
+
+	@Override
+	public Product GetProduct(Long productId) {
+		
+		return productRepository.findById(productId).get();
+	}
+
 }

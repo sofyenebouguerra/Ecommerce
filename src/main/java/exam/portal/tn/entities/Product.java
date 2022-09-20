@@ -31,9 +31,7 @@ public class Product implements Serializable {
 			@JoinColumn(name="product_id")
 	},inverseJoinColumns= {
 			@JoinColumn(name="image_id")
-	}
-	)
-
+	})
 	private Set<ImageModel> productImages;
 	
 	
@@ -94,6 +92,9 @@ public class Product implements Serializable {
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	public String getProductName() {
+		return productName;
 	}
 	
 	

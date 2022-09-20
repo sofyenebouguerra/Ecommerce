@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,7 @@ import exam.portal.tn.services.IProductServices;
 @RestController
 @RequestMapping("/product")
 @CrossOrigin("*")
-@PreAuthorize("hasRole('Admin')")
+//@PreAuthorize("hasRole('ADMIN')")
 public class ProductController {
 	
 	@Autowired
@@ -63,7 +65,14 @@ public class ProductController {
 	public List<Product> GetAllPro(){
 		return iProductServices.GetAllPro();
 	}
+	@DeleteMapping("/DelPro/{productId}")
+	public void DeleteProDetail(@PathVariable("productId") Long productId) {
+		iProductServices.DeleteProDetail(productId);
+	}
 	
-	
+	@GetMapping("/GetOne/{productId}")
+	public Product GetProduct(@PathVariable ("productId") Long productId) {
+		return iProductServices.GetProduct(productId);
+	}
 	
 }
