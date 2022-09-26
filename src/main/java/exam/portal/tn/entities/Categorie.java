@@ -18,6 +18,7 @@ public class Categorie implements Serializable {
 	private String libelle;
 	
 	
+	 
 	
 	
 	public Categorie() {
