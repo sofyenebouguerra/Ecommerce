@@ -15,8 +15,7 @@ import javax.persistence.ManyToMany;
 
 
 @Entity
-public class Product implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Product {
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private Long productId;
@@ -24,6 +23,7 @@ public class Product implements Serializable {
 	private String productDescription;
 	private Double productDiscountPrice;
 	private Double productActualPrice;
+	private String fileName;
 	
 	
 	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
@@ -39,23 +39,30 @@ public class Product implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Product(String productName, String productDescription, Double productDiscountPrice,
-			Double productActualPrice) {
-		super();
-		this.productName = productName;
-		this.productDescription = productDescription;
-		this.productDiscountPrice = productDiscountPrice;
-		this.productActualPrice = productActualPrice;
-	}
+
 	public Product(Long productId, String productName, String productDescription, Double productDiscountPrice,
-			Double productActualPrice) {
+			Double productActualPrice, String fileName, Set<ImageModel> productImages) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
 		this.productDescription = productDescription;
 		this.productDiscountPrice = productDiscountPrice;
 		this.productActualPrice = productActualPrice;
+		this.fileName = fileName;
+		this.productImages = productImages;
 	}
+
+	public Product(String productName, String productDescription, Double productDiscountPrice,
+			Double productActualPrice, String fileName, Set<ImageModel> productImages) {
+		super();
+		this.productName = productName;
+		this.productDescription = productDescription;
+		this.productDiscountPrice = productDiscountPrice;
+		this.productActualPrice = productActualPrice;
+		this.fileName = fileName;
+		this.productImages = productImages;
+	}
+
 	public Long getProductId() {
 		return productId;
 	}
@@ -81,9 +88,7 @@ public class Product implements Serializable {
 	public void setProductActualPrice(Double productActualPrice) {
 		this.productActualPrice = productActualPrice;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+
 	public Set<ImageModel> getProductImages() {
 		return productImages;
 	}
@@ -96,7 +101,18 @@ public class Product implements Serializable {
 	public String getProductName() {
 		return productName;
 	}
-	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 	
 

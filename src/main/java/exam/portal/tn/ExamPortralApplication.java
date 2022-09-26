@@ -13,8 +13,9 @@ import exam.portal.tn.entities.User;
 import exam.portal.tn.entities.UserRole;
 import exam.portal.tn.services.IUserService;
 
-@SpringBootApplication
-public class ExamPortralApplication   {
+@SpringBootApplication 
+public class ExamPortralApplication 
+{
 	
 
 
