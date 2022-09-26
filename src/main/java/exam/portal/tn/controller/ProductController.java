@@ -3,6 +3,7 @@ package exam.portal.tn.controller;
 import java.awt.PageAttributes;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -47,6 +48,7 @@ import exam.portal.tn.entities.ImageModel;
 import exam.portal.tn.entities.Product;
 import exam.portal.tn.entities.ProductExcel;
 import exam.portal.tn.services.IProductServices;
+import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping("/product")
@@ -171,5 +173,11 @@ public class ProductController {
 	        ProductExcel excel = new ProductExcel(listArticles);
 	        excel.export(response);    
 	    }  
+	 
+	 @GetMapping("/Jasper/report")
+	    public String generateReport() throws FileNotFoundException, JRException {
+		 System.out.println("bak marche");
+	        return iProductServices.exportReport();
+	    }
 	
 }
