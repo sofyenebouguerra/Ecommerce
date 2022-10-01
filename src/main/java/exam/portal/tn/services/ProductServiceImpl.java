@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import exam.portal.tn.entities.Category;
 import exam.portal.tn.entities.Product;
 import exam.portal.tn.entities.User;
+import exam.portal.tn.repository.CategoryRepository;
 import exam.portal.tn.repository.ProductRepository;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -26,6 +28,11 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class ProductServiceImpl implements IProductServices {
+	
+
+
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Autowired
 	ProductRepository productRepository;
@@ -93,5 +100,53 @@ public class ProductServiceImpl implements IProductServices {
 
 		        return "report generated in path : " + path;
 		    }
+
+
+	@Override
+	public Product addProductToCategory(Product product, long idCategory) {
+		Category category = categoryRepository.findById(idCategory).orElse(null);
+		category.addProductToCategory(product);
+		return productRepository.save(product);
+	}
+
+
+
+	@Override
+	public Product editProduct(Product product, long id) {
+		Product existProduct = productRepository.findById(id).orElse(null);
+		existProduct.setProductName(product.getProductName());
+		existProduct.setProductDescription(product.getProductDescription());
+		existProduct.setFileName(product.getFileName());
+		existProduct.setProductActualPrice(product.getProductActualPrice());
+		existProduct.setProductDiscountPrice(product.getProductDiscountPrice());
+		return productRepository.save(existProduct);
+	}
+
+	@Override
+	public Product findProductById(long id) {
+		return productRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	public void deleteProduct(long id) {
+		productRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Product> findAllProducts() {
+		return (List<Product>) productRepository.findAll();
+	}
+
+	@Override
+	public List<Product> findProductsForCategory(long idCategory) {
+		Category category = categoryRepository.findById(idCategory).orElse(null);
+		return category.getProducts();
+	}
+
+	@Override
+	public Product getProduct(Long id) {
+		return productRepository.findById(id).orElse(null);
+	}
+
 			
 }

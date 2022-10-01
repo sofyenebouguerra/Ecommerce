@@ -22,7 +22,7 @@ import exam.portal.tn.services.PanierService;
 
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class PanierController {

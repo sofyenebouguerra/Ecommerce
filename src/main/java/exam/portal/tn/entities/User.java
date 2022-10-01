@@ -1,8 +1,10 @@
 package exam.portal.tn.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,7 +19,10 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name="users")
@@ -35,6 +40,20 @@ public class User  implements UserDetails {
 	private String phone; 
 	private boolean enabled=true;
 	private String profile;
+    private boolean admin;
+	 private String nameOnCard;
+	 private String cardNumber; 
+	 private int cvv;
+	 private String address;
+	 
+	 @JsonProperty(access = Access.AUTO)
+	 @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	 private List<Category> categories;
+	 
+	 @JsonProperty(access = Access.AUTO)
+	 @OneToMany(cascade = CascadeType.MERGE, mappedBy = "user")
+	 private List<Cart> carts;
+
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
 	@JsonIgnore
@@ -44,8 +63,12 @@ public class User  implements UserDetails {
 		
 	}
 	
+	
+	
 	public User(Long id, String username, String password, String firstName, String lastName, String email,
-			String phone, boolean enabled, String profile) {
+			String phone, boolean enabled, String profile, boolean admin, String nameOnCard, String cardNumber, int cvv,
+			String address, List<exam.portal.tn.entities.Category> categories, List<exam.portal.tn.entities.Cart> carts,
+			Set<UserRole> userRoles) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -56,11 +79,23 @@ public class User  implements UserDetails {
 		this.phone = phone;
 		this.enabled = enabled;
 		this.profile = profile;
+		this.admin = admin;
+		this.nameOnCard = nameOnCard;
+		this.cardNumber = cardNumber;
+		this.cvv = cvv;
+		this.address = address;
+		this.categories = categories;
+		this.carts = carts;
+		this.userRoles = userRoles;
 	}
+
+
 
 	
 	public User(String username, String password, String firstName, String lastName, String email, String phone,
-			boolean enabled, String profile) {
+			boolean enabled, String profile, boolean admin, String nameOnCard, String cardNumber, int cvv,
+			String address, List<exam.portal.tn.entities.Category> categories, List<exam.portal.tn.entities.Cart> carts,
+			Set<UserRole> userRoles) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -70,7 +105,17 @@ public class User  implements UserDetails {
 		this.phone = phone;
 		this.enabled = enabled;
 		this.profile = profile;
+		this.admin = admin;
+		this.nameOnCard = nameOnCard;
+		this.cardNumber = cardNumber;
+		this.cvv = cvv;
+		this.address = address;
+		this.categories = categories;
+		this.carts = carts;
+		this.userRoles = userRoles;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -166,7 +211,111 @@ public class User  implements UserDetails {
 	}
 
 
-	
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
+
+
+	public String getNameOnCard() {
+		return nameOnCard;
+	}
+
+
+
+	public void setNameOnCard(String nameOnCard) {
+		this.nameOnCard = nameOnCard;
+	}
+
+
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+
+
+	public int getCvv() {
+		return cvv;
+	}
+
+
+
+	public void setCvv(int cvv) {
+		this.cvv = cvv;
+	}
+
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+
+
+	public List<Cart> getCarts() {
+		return carts;
+	}
+
+
+
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
+
+
+	public void addCategoryToUser(Category category) {
+		if (getCategories()==null) {
+			this.categories = new ArrayList<>();
+		}
+		getCategories().add(category);
+		category.setUser(this);
+	}
+   
+	public void addCartToUser(Cart cart) {
+		if(getCarts()==null) {
+			this.carts = new ArrayList<>();	
+		}
+		getCarts().add(cart);
+		cart.setUser(this);
+	}
+	public void removeFromCart(Cart cart) {
+		if (getCarts()!=null) {
+			getCarts().remove(cart);
+		}
+	}
+	 
 	
 
 }

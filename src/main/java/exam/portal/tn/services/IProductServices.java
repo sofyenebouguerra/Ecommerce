@@ -16,4 +16,19 @@ public interface IProductServices {
 	 public Product getProductName(String productName);
 	 public Product updatePro(Product product);
 	 public String exportReport() throws JRException, FileNotFoundException;
+	 
+		Product addProductToCategory(Product product, long idCategory);
+		
+		Product editProduct(Product product, long id);
+		
+		Product findProductById(long id);
+		
+		void deleteProduct(long id);
+		
+		List<Product> findAllProducts();
+		
+		List<Product> findProductsForCategory(long idCategory);
+		
+
+		Product getProduct(Long id);
 }
