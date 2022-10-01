@@ -39,6 +39,65 @@ public class OrderController {
 	OrderProductService orderProductService;
 	
 	
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public @NotNull Iterable<Order> list(){
+		return this.orderService.getAllOrders();
+	}
+	
+	@PostMapping("/orders")
+	public ResponseEntity<Order> create(@RequestBody OrderForm form){
+		List<OrderProductDto> formDtos = form.getpOrderProductDtos();
+		validateProductsExistance(formDtos);
+		Order order = new Order();
+		order.setStatus(OrderStatus.PAID.name());
+		order = this.orderService.create(order);
+		
+		List<OrderProduct> orderProducts = new ArrayList<OrderProduct>();
+		for(OrderProductDto dto: formDtos) {
+			orderProducts.add(orderProductService.create(new OrderProduct(order, productService.getProduct(
+					dto.getProduct().getProductId()), dto.getQuantity())));
+		}
+		order.setOrderProducts(orderProducts);
+		this.orderService.update(order);
+		
+		String uri = ServletUriComponentsBuilder
+				.fromCurrentServletMapping()
+				.path("/orders/{id}")
+				.buildAndExpand(order.getId())
+				.toString();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", uri);
+		
+		return new ResponseEntity<>(order, headers, HttpStatus.CREATED);
+	
+	}
 
+	private void validateProductsExistance(List<OrderProductDto> orderProducts) {
+		List<OrderProductDto> list = orderProducts
+				.stream()
+				.filter(op -> Objects.isNull(productService.getProduct(op.getProduct().getProductId())))
+				.collect(Collectors.toList());
+		if (!CollectionUtils.isEmpty(list)) {
+			new ResourceNotFoundException("Product not found");
+			
+		}
+		
+		
+	}
+	
+	public  static class OrderForm {
+		private List<OrderProductDto> pOrderProductDtos;
+
+		public List<OrderProductDto> getpOrderProductDtos() {
+			return pOrderProductDtos;
+		}
+
+		public void setpOrderProductDtos(List<OrderProductDto> pOrderProductDtos) {
+			this.pOrderProductDtos = pOrderProductDtos;
+		}
+		
+	}
+	
 
 }
