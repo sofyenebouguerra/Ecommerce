@@ -19,16 +19,16 @@ public interface IProductServices {
 	 
 		Product addProductToCategory(Product product, long idCategory);
 		
-		Product editProduct(Product product, long id);
+		Product editProduct(Product product, long productId);
 		
-		Product findProductById(long id);
+		Product findProductById(long productId);
 		
-		void deleteProduct(long id);
+		void deleteProduct(long productId);
 		
 		List<Product> findAllProducts();
 		
 		List<Product> findProductsForCategory(long idCategory);
 		
 
-		Product getProduct(Long id);
+		Product getProduct(Long productId);
 }

@@ -47,6 +47,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import exam.portal.tn.entities.ImageModel;
 import exam.portal.tn.entities.Product;
 import exam.portal.tn.entities.ProductExcel;
+import exam.portal.tn.repository.ProductRepository;
 import exam.portal.tn.services.IProductServices;
 import net.sf.jasperreports.engine.JRException;
 
@@ -55,6 +56,8 @@ import net.sf.jasperreports.engine.JRException;
 @CrossOrigin("*")
 //@PreAuthorize("hasRole('ADMIN')")
 public class ProductController {
+	
+	@Autowired  ProductRepository productRepository;
 	
 	@Autowired
 	IProductServices iProductServices;
@@ -180,4 +183,42 @@ public class ProductController {
 	        return iProductServices.exportReport();
 	    }
 	
+	 
+	 
+	 
+		@PostMapping("/addProductToCategory/{idCategory}")
+		Product addProductToCategory(@RequestBody Product product, @PathVariable long idCategory) {
+			return iProductServices.addProductToCategory(product, idCategory);
+		}
+
+		@PutMapping("/editProduct/{id}")
+		Product editProduct(@RequestBody Product product, @PathVariable long id) {
+			 return iProductServices.editProduct(product, id);
+		}
+
+		@GetMapping("/findProductById/{id}")
+		Product findProductById(@PathVariable Long id) {
+			return iProductServices.findProductById(id);
+		}
+
+		@DeleteMapping("/deleteProduct/{id}")
+		void deleteProduct(@PathVariable long id) {
+			iProductServices.deleteProduct(id);
+		}
+
+		@GetMapping("/findAllProducts")
+		List<Product> findAllProducts() {
+			return iProductServices.findAllProducts();
+		}
+
+		@GetMapping("/findProductsForCategory/{idCategory}")
+		List<Product> findProductsForCategory(@PathVariable long idCategory) {
+			return iProductServices.findProductsForCategory(idCategory);
+		}
+
+		@GetMapping("/findByName/{name}")
+		List<Product> findByName(@PathVariable String name) {
+			return productRepository.findByProductName1("%" + name + "%");
+		}
+
 }

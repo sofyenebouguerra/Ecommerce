@@ -123,8 +123,8 @@ public class ProductServiceImpl implements IProductServices {
 	}
 
 	@Override
-	public Product findProductById(long id) {
-		return productRepository.findById(id).orElse(null);
+	public Product findProductById(long productId) {
+		return productRepository.findById(productId).orElse(null);
 	}
 
 	@Override

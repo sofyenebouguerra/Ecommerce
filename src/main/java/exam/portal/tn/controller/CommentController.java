@@ -12,7 +12,7 @@ import exam.portal.tn.services.CommentService;
 
 @RestController
 @RequestMapping(value = "/api")
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 public class CommentController {
  
 	@Autowired

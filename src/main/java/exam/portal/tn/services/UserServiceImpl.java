@@ -1,5 +1,7 @@
 package exam.portal.tn.services;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,57 @@ public class UserServiceImpl implements IUserService {
 		userRepo.deleteById(userId);
 		
 	}
+ //////////////////////////////////////////
+	@Override
+	public User addUser(User user) {
+		List<User> users = userRepo.findAll();
+		if (users.size() == 0) {
+			user.setAdmin(true);
+		}
+		
+		for (User userExist : users) {
+			if (user.getUsername().equals(userExist.getUsername())) {
+				userExist.setUsername(userExist.getUsername());
+				userExist.setPassword(userExist.getPassword());
+				return userRepo.save(userExist);
+			}
+		}
+	
+		return userRepo.save(user);	
+	}
+
+	@Override
+	public List<User> findAllUsers() {
+		return userRepo.findAll();
+	}
+
+	@Override
+	public User editUser(User user, long id) {
+		User existUser = userRepo.findById(id).orElse(null);
+		existUser.setUsername(user.getUsername());
+		existUser.setPassword(user.getPassword());
+		existUser.setAdmin(user.isAdmin());
+		existUser.setEmail(user.getEmail());
+		existUser.setNameOnCard(user.getNameOnCard());
+		existUser.setCardNumber(user.getCardNumber());
+		existUser.setCvv(user.getCvv());
+		existUser.setAddress(user.getAddress());
+		return userRepo.save(existUser);
+	}
+
+	@Override
+	public User findUserById(long id) {
+      return userRepo.findById(id).orElse(null);
+	}
+
+	@Override
+	public void deleteUser(long id) {
+		userRepo.deleteById(id);
+	} 
+	
+	
+
+
+
 
 }
