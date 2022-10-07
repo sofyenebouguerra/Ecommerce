@@ -112,8 +112,8 @@ public class ProductServiceImpl implements IProductServices {
 
 
 	@Override
-	public Product editProduct(Product product, long id) {
-		Product existProduct = productRepository.findById(id).orElse(null);
+	public Product editProduct(Product product, long productId) {
+		Product existProduct = productRepository.findById(productId).orElse(null);
 		existProduct.setProductName(product.getProductName());
 		existProduct.setProductDescription(product.getProductDescription());
 		existProduct.setFileName(product.getFileName());

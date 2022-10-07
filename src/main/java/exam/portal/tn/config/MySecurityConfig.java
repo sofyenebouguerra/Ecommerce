@@ -61,7 +61,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 				.cors()
 				.disable()
 				.authorizeRequests()
-				.antMatchers("/generate-token","/user/","/product/","/product/GetAll","product/DelPro/{productId}","/product/GetOne/{productId}","/product/prodIma","/product/Imgproduct/{productId}","/product/UpdatePro","/product/products/export/excel","/para/parametres/{id}","/para/parametres","/product/Jasper/report","/product/findAllProducts","/product/findProductById/{id}","/api/findTagsForProduct/{idProduct}","/api/findCommentsForProduct/{idProduct}","/product/findByName/{name}","/user/findByUsername/{username}","/api/findProductsForTag/{idTag}","/api/findAllCategories","/user/addUser","/api/ImgCart/{idCart}").permitAll()
+				.antMatchers("/generate-token","/user/","/user/users", "/product/","/product/GetAll","/product/DelPro/{productId}","/product/GetOne/{productId}","/product/prodIma","/product/Imgproduct/{productId}","/product/UpdatePro","/product/products/export/excel","/para/parametres/{id}","/para/parametres","/product/Jasper/report","/product/findAllProducts","/product/findProductById/{id}","/api/findTagsForProduct/{idProduct}","/api/findCommentsForProduct/{idProduct}","/product/findByName/{name}","/user/findByUsername/{username}","/api/findProductsForTag/{idTag}","/api/findAllCategories","/user/addUser","/api/ImgCart/{idCart}","/product/editProduct/{productId}").permitAll()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 			
 				.anyRequest().authenticated()

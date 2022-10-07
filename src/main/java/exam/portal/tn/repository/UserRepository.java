@@ -1,5 +1,6 @@
 package exam.portal.tn.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,5 @@ import exam.portal.tn.entities.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findByUsername(String username);
-	
+	List<User> findAllByEmail(String email);
 }

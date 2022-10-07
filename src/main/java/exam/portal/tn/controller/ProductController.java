@@ -122,6 +122,36 @@ public class ProductController {
 		    prod.setFileName(newFileName);
 		    return iProductServices.addProduct(prod);
 		 }
+		 @PostMapping("/addProductToCategory/{idCategory}")
+			Product addProductToCategory(@PathVariable long idCategory , @RequestParam("file") MultipartFile file,
+					 @RequestParam("product") String product) throws JsonParseException , JsonMappingException , Exception
+			 {
+				 System.out.println("addProductToCategory.............");
+	          Product prod = new ObjectMapper().readValue(product, Product.class);
+			    boolean isExit = new File(context.getRealPath("/Imagess/")).exists();
+			    if (!isExit)
+			    {
+			    	new File (context.getRealPath("/Imagess/")).mkdir();
+			    	System.out.println("mk dir Images.............");
+			    }
+			    System.out.println("Save Product  22222.............");
+			    String filename = file.getOriginalFilename();
+			    String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+			    File serverFile = new File (context.getRealPath("/Imagess/"+File.separator+newFileName));
+			    try
+			    {
+			    	System.out.println("Image");
+			    	 FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
+			    	 
+			    }catch(Exception e) {
+			    	e.printStackTrace();
+			    }
+			    System.out.println("Save Product 333333.............");
+			    prod.setFileName(newFileName);
+			   
+			 
+				return iProductServices.addProductToCategory(prod, idCategory);
+			}
 		 
 		 @GetMapping(path="/Imgproduct/{productId}")
 		 public byte[] getPhoto(@PathVariable("productId") Long productId) throws Exception{
@@ -186,14 +216,12 @@ public class ProductController {
 	 
 	 
 	 
-		@PostMapping("/addProductToCategory/{idCategory}")
-		Product addProductToCategory(@RequestBody Product product, @PathVariable long idCategory) {
-			return iProductServices.addProductToCategory(product, idCategory);
-		}
+		
 
-		@PutMapping("/editProduct/{id}")
-		Product editProduct(@RequestBody Product product, @PathVariable long id) {
-			 return iProductServices.editProduct(product, id);
+		
+		@PutMapping("/editProduct/{productId}")
+		Product editProduct(@RequestBody Product product, @PathVariable long productId) {
+			 return iProductServices.editProduct(product, productId);
 		}
 
 		@GetMapping("/findProductById/{id}")

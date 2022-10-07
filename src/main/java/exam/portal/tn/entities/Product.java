@@ -49,7 +49,7 @@ public class Product {
 	
 	
 	
-	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinTable(name="product_images",joinColumns= {
 			@JoinColumn(name="product_id")
 	},inverseJoinColumns= {
@@ -145,11 +145,6 @@ public class Product {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	}
-
-	public boolean isPresent() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	
