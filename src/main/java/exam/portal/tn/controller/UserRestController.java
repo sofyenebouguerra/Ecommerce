@@ -78,7 +78,7 @@ public class UserRestController {
  	 public User createUser (@RequestParam("file") MultipartFile file,
  			 @RequestParam("user") String user) throws JsonParseException , JsonMappingException , Exception
  	 {
- 		 System.out.println("Save Article.............");
+ 		 System.out.println("Save User.............");
  	    User userr = new ObjectMapper().readValue(user, User.class);
  	    boolean isExit = new File(context.getRealPath("/Imagess/")).exists();
  	    if (!isExit)
@@ -116,13 +116,65 @@ public class UserRestController {
 		roles.add(userRole);
 		return userService.createUser(userr, roles);
  	 }
-      @GetMapping(path="/Imgusers/{id}")
+      @GetMapping("/Imgusers/{id}")
 		 public byte[] getPhoto(@PathVariable("id") Long id) throws Exception{
-			 User User   =userService.findUserById(id);
+			 User User =userService.findUserById(id);
 			 return Files.readAllBytes(Paths.get(context.getRealPath("/Imagess/")+User.getProfile()));
 		 }
- 	 
+		 
+		 
+      @PutMapping("/editUserImag/{id}")
+    	public void UpdateUser(@PathVariable long id,@RequestParam("file") MultipartFile file,
+    			 @RequestParam("user") String user) throws JsonParseException , JsonMappingException , Exception {
+    	  User userr = new ObjectMapper().readValue(user, User.class);
+    	  deleteUserImage(userr);
+    	  String filename = file.getOriginalFilename();
+   	      String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+   	      userr.setProfile(newFileName);
+   	      userService.editUser(userr, id);
+          AddUserImage(file);
+    	}
       
+      
+      
+      private void AddUserImage(MultipartFile file)
+      {
+    	  boolean isExit = new File(context.getRealPath("/Imagess/")).exists();
+   	    if (!isExit)
+   	    {
+   	    	new File (context.getRealPath("/Imagess/")).mkdir();
+   	    	System.out.println("mk dir Imagess.............");
+   	    }
+   	    String filename = file.getOriginalFilename();
+   	    String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+   	    File serverFile = new File (context.getRealPath("/Imagess/"+File.separator+newFileName));
+   	    try
+   	    {
+   	    	System.out.println("Image");
+   	    	 FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
+   	    	 
+   	    }catch(Exception e) {
+   	    	System.out.println("Failed to add image user!!");
+   	    }
+      }
+      
+      
+      
+      
+      private void deleteUserImage(User user) {
+    	  System.out.println("DeleUser Image");
+    	  try {
+    		  File file = new File (context.getRealPath("/Imagess/"+user.getProfile()));
+    		  System.out.println(user.getProfile());
+    		  if(file.delete()) {
+    			  System.out.println(file.getName() +"is Deleted");
+    		  }else {
+    			  System.out.println("Delete operation is failed");
+    		  }
+    	  }catch(Exception e) {
+    		  System.out.println("Failed to delete image !!");
+    	  }
+      }
       
       @GetMapping("/{username}")
       public User getUser(@PathVariable("username")  String username) {

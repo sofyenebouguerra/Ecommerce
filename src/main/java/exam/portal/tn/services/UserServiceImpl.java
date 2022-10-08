@@ -87,6 +87,7 @@ public class UserServiceImpl implements IUserService {
 		existUser.setCardNumber(user.getCardNumber());
 		existUser.setCvv(user.getCvv());
 		existUser.setAddress(user.getAddress());
+		existUser.setProfile(user.getProfile());
 		return userRepo.save(existUser);
 	}
 
