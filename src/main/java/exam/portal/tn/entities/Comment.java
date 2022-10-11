@@ -2,9 +2,13 @@ package exam.portal.tn.entities;
 
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 
 @Entity
@@ -28,6 +32,10 @@ public class Comment {
 	@JsonBackReference(value = "product")
 	@ManyToOne
 	private Product product;
+	
+	@ManyToMany
+	@JsonIgnore
+	private List<User> users;
 
 	public Comment() {
 		super();

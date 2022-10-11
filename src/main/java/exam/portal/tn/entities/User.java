@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -58,6 +59,11 @@ public class User  implements UserDetails {
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,mappedBy="user")
 	@JsonIgnore
 	private Set<UserRole> userRoles=new HashSet<>();
+	
+	@ManyToMany
+	@JsonIgnore
+	private List<Comment> comments;
+
 	
 	public User() {
 		

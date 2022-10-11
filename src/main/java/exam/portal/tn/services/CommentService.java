@@ -7,7 +7,7 @@ import exam.portal.tn.entities.Comment;
 
 public interface CommentService {
 	
-	Comment addCommentToProduct(Comment comment, long idProduct);
+	Comment addCommentToProduct(Comment comment, long idProduct );
 	
 	Comment editComment(Comment comment, long id);
 	

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import exam.portal.tn.entities.Comment;
 import exam.portal.tn.entities.Role;
 import exam.portal.tn.entities.User;
 import exam.portal.tn.entities.UserRole;
@@ -121,7 +122,15 @@ public class UserRestController {
 			 User User =userService.findUserById(id);
 			 return Files.readAllBytes(Paths.get(context.getRealPath("/Imagess/")+User.getProfile()));
 		 }
-		 
+      
+      
+      @GetMapping("/Imguserss/{username}")
+		 public byte[] getPhotoo(@PathVariable("username") String username) throws Exception{
+    	  User user=userService.getUser(username);
+			 Comment comment=new Comment();
+			 comment.setAddedBy(username);
+			 return Files.readAllBytes(Paths.get(context.getRealPath("/Imagess/")+user.getProfile()));
+		 }
 		 
       @PutMapping("/editUserImag/{id}")
     	public void UpdateUser(@PathVariable long id,@RequestParam("file") MultipartFile file,
